@@ -1,6 +1,6 @@
 {
   "name": "compounding-engineering",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "AI-powered development tools. 24 agents, 15 commands, 11 skills, 2 MCP servers for code review, research, design, and workflow automation.",
   "author": {
     "name": "Kieran Klaassen",
@@ -23,17 +23,5 @@
     "image-generation",
     "playwright",
     "browser-automation"
-  ],
-  "mcpServers": {
-    "playwright": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@playwright/mcp@latest"],
-      "env": {}
-    },
-    "context7": {
-      "type": "sse",
-      "url": "https://mcp.context7.com/sse"
-    }
-  }
+  ]
 }
