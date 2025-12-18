@@ -5,6 +5,12 @@ All notable changes to the compound-engineering plugin will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.16.0] - 2025-12-18
+
+### Added
+
+- **`david-go-reviewer` agent** - New review agent for Go code with idiomatic conventions based on Effective Go and Go Code Review Comments. Reviews for proper error handling, naming conventions (initialisms, package names, receivers), interface design (accept interfaces, return concrete types), goroutine safety and lifecycle management, and the core Go philosophy of simplicity over cleverness.
+
 ## [2.15.1] - 2025-12-18
 
 ### Changed
