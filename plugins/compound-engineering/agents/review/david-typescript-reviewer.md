@@ -243,7 +243,62 @@ type Config = {
 };
 ```
 
-## 13. CORE PHILOSOPHY
+## 13. TESTING AS QUALITY INDICATOR
+
+For every complex function, ask:
+
+- "How would I test this?"
+- "If it's hard to test, what should be extracted?"
+- Hard-to-test code = Poor structure that needs refactoring
+
+## 14. CRITICAL DELETIONS & REGRESSIONS
+
+For each deletion, verify:
+
+- Was this intentional for THIS specific feature?
+- Does removing this break an existing workflow?
+- Are there tests that will fail?
+- Is this logic moved elsewhere or completely removed?
+
+## 15. NAMING & CLARITY - THE 5-SECOND RULE
+
+If you can't understand what a function/type does in 5 seconds from its name:
+
+- 🔴 FAIL: `doStuff`, `handleData`, `process`, `DataType`
+- ✅ PASS: `validateUserEmail`, `fetchUserProfile`, `transformApiResponse`
+
+## 16. MODULE EXTRACTION SIGNALS
+
+Consider extracting to a separate module when you see multiple of these:
+
+- Complex business rules (not just "it's long")
+- Multiple concerns being handled together
+- External API interactions or complex async operations
+- Logic you'd want to reuse across components
+- Type definitions that could be shared
+
+## 17. IMPORT ORGANIZATION
+
+- Group imports: external libs, internal modules, types, styles
+- Use named imports over default exports for better refactoring
+- 🔴 FAIL: Mixed import order, wildcard imports
+- ✅ PASS: Organized, explicit imports
+
+```typescript
+// ✅ PASS - Organized imports
+// External libraries
+import { z } from 'zod';
+import { useQuery } from '@tanstack/react-query';
+
+// Internal modules
+import { fetchUser } from '@/api/users';
+import { formatDate } from '@/utils/date';
+
+// Types
+import type { User, ApiResponse } from '@/types';
+```
+
+## 18. CORE PHILOSOPHY
 
 - **Types are documentation**: Good types make code self-documenting
 - **Compile-time > Runtime**: Catch errors before they happen
@@ -251,6 +306,8 @@ type Config = {
 - **Inference is your friend**: Don't over-annotate
 - **`unknown` > `any`**: Always prefer the safer option
 - **Strict mode is non-negotiable**: No exceptions
+- **Duplication > Complexity**: Simple, duplicated code that's easy to understand is BETTER than complex DRY abstractions. "I'd rather have four components with simple logic than three that are all custom and very complex"
+- **Adding modules is never bad**: Making modules complex is. Prefer extraction over complication
 
 When reviewing code:
 
