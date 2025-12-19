@@ -38,7 +38,7 @@ First, I need to determine the review target type and set up the code for analys
 - [ ] Determine review type: PR number (numeric), GitHub URL, file path (.md), or empty (current branch)
 - [ ] Check current git branch
 - [ ] If ALREADY on the PR branch → proceed with analysis on current branch
-- [ ] If DIFFERENT branch → offer to use worktree: "Use git-worktree skill for isolated Call `skill: git-worktree` with branch name
+- [ ] If DIFFERENT branch → offer to use worktree for isolated review, invoke `skill: git-worktree` with branch name
 - [ ] Fetch PR metadata using `gh pr view --json` for title, body, files, linked issues
 - [ ] Set up language-specific analysis tools
 - [ ] Prepare security scanning environment
@@ -48,51 +48,144 @@ Ensure that the code is ready for analysis (either in worktree or on current bra
 
 </task_list>
 
-#### Parallel Agents to review the PR:
+#### Step 1: Detect Languages and Technologies from PR Files
 
-<parallel_tasks>
+<language_detection>
 
-Run ALL or most of these agents at the same time:
+**CRITICAL:** Before invoking reviewers, analyze the PR file list to determine which technologies are present. This ensures you invoke the RIGHT reviewers for the actual code changes.
 
-1. Task kieran-rails-reviewer(PR content)
-2. Task dhh-rails-reviewer(PR title)
-3. If turbo is used: Task rails-turbo-expert(PR content)
-4. Task git-history-analyzer(PR content)
-5. Task dependency-detective(PR content)
-6. Task pattern-recognition-specialist(PR content)
-7. Task architecture-strategist(PR content)
-8. Task code-philosopher(PR content)
-9. Task security-sentinel(PR content)
-10. Task performance-oracle(PR content)
-11. Task devops-harmony-analyst(PR content)
-12. Task data-integrity-guardian(PR content)
-13. Task agent-native-reviewer(PR content) - Verify new features are agent-accessible
+Run this detection logic:
 
-</parallel_tasks>
+```
+For each file in PR:
+  - *.go                              → GO_CODE = true
+  - *.ts, *.tsx                       → TYPESCRIPT_CODE = true
+  - *.tsx, *.jsx                      → REACT_CODE = true
+  - *.rb                              → RUBY_CODE = true
+  - db/migrate/*                      → DATABASE_MIGRATION = true
+  - */sql/migrations/*, */migrations/* → DATABASE_MIGRATION = true
+  - */sql/queries/*, */queries/*      → SQL_QUERIES = true
+  - */sql/*.sql, *.sql                → SQL_CODE = true
+  - Dockerfile, *.yaml                → DEVOPS_CODE = true
+  - package.json changes              → DEPENDENCY_CHANGES = true
+```
 
-#### Conditional Agents (Run if applicable):
+</language_detection>
 
-<conditional_agents>
+#### Step 2: Select and Run Language-Specific Reviewers
 
-These agents are run ONLY when the PR matches specific criteria. Check the PR files list to determine if they apply:
+<reviewer_selection_matrix>
 
-**If PR contains database migrations (db/migrate/*.rb files) or data backfills:**
+**IMPORTANT:** Use this matrix to select which reviewers to run based on detected file types. Run selected reviewers in parallel using the Task tool.
 
-14. Task data-migration-expert(PR content) - Validates ID mappings match production, checks for swapped values, verifies rollback safety
-15. Task deployment-verification-agent(PR content) - Creates Go/No-Go deployment checklist with SQL verification queries
+| File Patterns | Required Reviewer(s) | Description |
+|--------------|---------------------|-------------|
+| `*.go` | **david-go-reviewer** | Go code: idiomatic patterns, error handling, concurrency, sqlc, NATS, connect-rpc |
+| `*.ts` (non-React) | **david-typescript-reviewer** | TypeScript: strict mode, type safety, discriminated unions, generics |
+| `*.tsx`, `*.jsx` | **david-react-reviewer** | React: hooks patterns, effects hygiene, component design, performance |
+| `*.tsx` (with TS logic) | **david-typescript-reviewer** + **david-react-reviewer** | Run BOTH for React+TypeScript |
+| `*.sql`, `*/sql/*` | **data-migration-expert** + **data-integrity-guardian** | Database: query patterns, migration safety, ID mappings |
+| `*/sql/migrations/*`, `*/migrations/*`, `db/migrate/*` | **data-migration-expert** + **data-integrity-guardian** + **deployment-verification-agent** | Migration files: rollback safety, deployment checklists |
+| `*/sql/queries/*`, `*/queries/*` | **david-go-reviewer** (for sqlc) + **performance-oracle** + **sqlc skill** | Query files: N+1 detection, query optimization, sqlc best practices |
 
-**When to run migration agents:**
-- PR includes files matching `db/migrate/*.rb`
-- PR modifies columns that store IDs, enums, or mappings
-- PR includes data backfill scripts or rake tasks
-- PR changes how data is read/written (e.g., changing from FK to string column)
-- PR title/body mentions: migration, backfill, data transformation, ID mapping
+</reviewer_selection_matrix>
 
-**What these agents check:**
-- `data-migration-expert`: Verifies hard-coded mappings match production reality (prevents swapped IDs), checks for orphaned associations, validates dual-write patterns
-- `deployment-verification-agent`: Produces executable pre/post-deploy checklists with SQL queries, rollback procedures, and monitoring plans
+#### Step 3: Run Cross-Cutting Reviewers (Always Applicable)
 
-</conditional_agents>
+<cross_cutting_reviewers>
+
+These reviewers apply to ALL code changes regardless of language. Run them in parallel with language-specific reviewers:
+
+| Reviewer | When to Use | Focus Area |
+|----------|------------|------------|
+| **security-sentinel** | ALWAYS for any code changes | Auth, input validation, injection attacks, data exposure |
+| **performance-oracle** | New features, data processing, queries | Algorithmic complexity, N+1 queries, memory, caching |
+| **architecture-strategist** | Refactors, new services, structural changes | Component boundaries, SOLID, coupling/cohesion |
+| **pattern-recognition-specialist** | Large PRs, refactoring | Code duplication, anti-patterns, naming consistency |
+| **agent-native-reviewer** | New features (ALWAYS) | Action parity, context parity for AI agents |
+
+</cross_cutting_reviewers>
+
+#### Step 4: Run Conditional Reviewers Based on Change Type
+
+<conditional_reviewers>
+
+**Database/Migration Changes** (if `*.sql`, `db/migrate/*`, or migration-related changes):
+
+| Reviewer | Trigger | What It Checks |
+|----------|---------|----------------|
+| **data-migration-expert** | Migrations, ID mappings, enum changes | ID mappings match production, swapped values, orphaned data |
+| **data-integrity-guardian** | Schema changes, data models | Constraints, referential integrity, GDPR compliance |
+| **deployment-verification-agent** | Risky data changes, production-touching | Pre/post-deploy checklists, SQL verification, rollback |
+
+**When to run database reviewers:**
+- PR includes migration files: `db/migrate/*`, `*/sql/migrations/*`, `*/migrations/*`
+- PR includes query files: `*/sql/queries/*`, `*/queries/*`, `*.sql`
+- PR modifies columns storing IDs, enums, or mappings
+- PR includes data backfill scripts
+- PR title/body mentions: migration, backfill, data transformation, sqlc
+
+**DevOps/Infrastructure Changes** (if `Dockerfile`, `*.yaml`, CI configs):
+
+| Reviewer | Trigger | What It Checks |
+|----------|---------|----------------|
+| **devops-harmony-analyst** | Docker, CI/CD, deployment configs | Build reproducibility, security, deployment safety |
+
+</conditional_reviewers>
+
+#### Step 5: Parallel Agent Execution
+
+<parallel_execution>
+
+Based on detection above, construct your parallel Task calls. Example for a mixed TS + Go + SQL PR:
+
+```
+# Language-specific (run based on detected files)
+Task david-typescript-reviewer(PR content)    # If *.ts files
+Task david-react-reviewer(PR content)         # If *.tsx/*.jsx files
+Task david-go-reviewer(PR content)            # If *.go files
+Task data-migration-expert(PR content)        # If *.sql/migrations
+
+# SQL/sqlc specific (if */sql/* files present)
+skill: sqlc                                   # Invoke for query/migration best practices
+
+# Cross-cutting (always run these)
+Task security-sentinel(PR content)
+Task performance-oracle(PR content)
+Task architecture-strategist(PR content)
+Task agent-native-reviewer(PR content)
+Task pattern-recognition-specialist(PR content)
+```
+
+**Execution Order:**
+1. Run ALL language-specific + cross-cutting reviewers in PARALLEL
+2. Run **code-simplicity-reviewer** LAST (after all other reviews complete) as a final simplification pass
+
+</parallel_execution>
+
+#### Quick Reference: File Pattern → Reviewer Mapping
+
+<quick_reference>
+
+```
+*.go                    → david-go-reviewer
+*.ts                    → david-typescript-reviewer
+*.tsx/*.jsx             → david-react-reviewer (+ typescript-reviewer if TS)
+*.sql, */sql/*          → data-migration-expert, data-integrity-guardian
+*/sql/migrations/*      → + deployment-verification-agent
+*/migrations/*          → + deployment-verification-agent
+db/migrate/*            → + deployment-verification-agent
+*/sql/queries/*         → david-go-reviewer, performance-oracle, + invoke sqlc skill
+*/queries/*             → david-go-reviewer, performance-oracle, + invoke sqlc skill
+Dockerfile              → devops-harmony-analyst
+*.yaml (CI)             → devops-harmony-analyst
+package.json            → dependency-detective
+ANY CODE                → security-sentinel, performance-oracle, architecture-strategist
+NEW FEATURES            → agent-native-reviewer
+FINAL PASS              → code-simplicity-reviewer (run LAST)
+```
+
+</quick_reference>
 
 ### 4. Ultra-Thinking Deep Dive Phases
 
@@ -292,7 +385,7 @@ Sub-agents can:
    004-pending-p3-unused-parameter.md
    ```
 
-5. Follow template structure from file-todos skill: `.claude/skills/file-todos/assets/todo-template.md`
+5. Follow template structure from file-todos skill
 
 **Todo File Structure (from template):**
 
@@ -367,7 +460,7 @@ After creating all todo files, present comprehensive summary:
 
 ### Review Agents Used:
 
-- kieran-rails-reviewer
+- david-go-reviewer / david-typescript-reviewer / david-react-reviewer (based on files)
 - security-sentinel
 - performance-oracle
 - architecture-strategist

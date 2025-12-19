@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <title>Skill Reference - Compounding Engineering</title>
-  <meta content="Complete reference for all 11 intelligent skills in the Compounding Engineering plugin." name="description" />
+  <meta content="Complete reference for all 9 intelligent skills in the Compounding Engineering plugin." name="description" />
   <meta content="width=device-width, initial-scale=1" name="viewport" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -33,9 +33,9 @@
         <div class="nav-section">
           <h3>Reference</h3>
           <ul>
-            <li><a href="agents.html">Agents (23)</a></li>
-            <li><a href="commands.html">Commands (13)</a></li>
-            <li><a href="skills.html" class="active">Skills (11)</a></li>
+            <li><a href="agents.html">Agents (25)</a></li>
+            <li><a href="commands.html">Commands (19)</a></li>
+            <li><a href="skills.html" class="active">Skills (9)</a></li>
             <li><a href="mcp-servers.html">MCP Servers (2)</a></li>
           </ul>
         </div>
@@ -48,7 +48,8 @@
         <div class="nav-section">
           <h3>On This Page</h3>
           <ul>
-            <li><a href="#development-tools">Development (7)</a></li>
+            <li><a href="#architecture-design">Architecture & Design (2)</a></li>
+            <li><a href="#development-tools">Development Tools (3)</a></li>
             <li><a href="#content-workflow">Content & Workflow (3)</a></li>
             <li><a href="#image-generation">Image Generation (1)</a></li>
           </ul>
@@ -73,7 +74,7 @@
       <article class="docs-article">
         <h1><i class="fa-solid fa-wand-magic-sparkles color-accent"></i> Skill Reference</h1>
         <p class="lead">
-          Think of skills as reference manuals that Claude Code can read mid-conversation. When you're writing Rails code and want DHH's style, or building a gem like Andrew Kane would, you don't need to paste documentation—just invoke the skill. Claude reads it, absorbs the patterns, and writes code that way.
+          Think of skills as reference manuals that Claude Code can read mid-conversation. When you're building AI agents and want prompt-native architecture, or creating frontend UIs with personality, you don't need to paste documentation—just invoke the skill. Claude reads it, absorbs the patterns, and writes code that way.
         </p>
 
         <div class="usage-box">
@@ -84,7 +85,7 @@ skill: [skill-name]
 
 # Examples
 skill: gemini-imagegen
-skill: dhh-ruby-style
+skill: agent-native-architecture
 skill: create-agent-skills</code></pre>
           </div>
         </div>
@@ -99,10 +100,77 @@ skill: create-agent-skills</code></pre>
           </div>
         </div>
 
+        <!-- Architecture & Design -->
+        <section id="architecture-design">
+          <h2><i class="fa-solid fa-sitemap"></i> Architecture & Design (2)</h2>
+          <p>These skills teach Claude specific architectural patterns and design philosophies. Use them when you want to build AI systems or create frontend interfaces with personality.</p>
+
+          <div class="skill-detail" id="agent-native-architecture">
+            <div class="skill-detail-header">
+              <h3>agent-native-architecture</h3>
+              <span class="skill-badge">AI</span>
+            </div>
+            <p class="skill-detail-description">
+              You're building AI agents but they feel brittle—too much code, not enough intelligence. This skill teaches prompt-native architecture: features defined in prompts, not code. Trust the agent's intelligence instead of trying to control every decision programmatically.
+            </p>
+            <h4>Core Principles</h4>
+            <ul>
+              <li><strong>Prompt-Native</strong> - Features live in prompts, not code</li>
+              <li><strong>Trust Intelligence</strong> - Let agents make decisions</li>
+              <li><strong>MCP Integration</strong> - Tools as first-class citizens</li>
+              <li><strong>Self-Modification</strong> - Systems that improve themselves</li>
+            </ul>
+            <h4>Key Patterns</h4>
+            <ul>
+              <li>Skills and hooks architecture</li>
+              <li>Agent parity: what users can do, agents can do</li>
+              <li>Structured output with validation</li>
+              <li>Multi-agent coordination</li>
+            </ul>
+            <div class="card-code-block">
+              <pre><code>skill: agent-native-architecture</code></pre>
+            </div>
+          </div>
+
+          <div class="skill-detail" id="frontend-design">
+            <div class="skill-detail-header">
+              <h3>frontend-design</h3>
+              <span class="skill-badge">Design</span>
+            </div>
+            <p class="skill-detail-description">
+              You've seen what AI usually generates: Inter font, purple gradients, rounded corners on everything. This skill teaches Claude to design interfaces that don't look like every other AI-generated site. It's about purposeful typography, unexpected color palettes, and interfaces with personality.
+            </p>
+            <h4>Design Thinking</h4>
+            <ul>
+              <li><strong>Purpose</strong> - What is the interface for?</li>
+              <li><strong>Tone</strong> - What feeling should it evoke?</li>
+              <li><strong>Constraints</strong> - Technical and brand limitations</li>
+              <li><strong>Differentiation</strong> - How to stand out</li>
+            </ul>
+            <h4>Focus Areas</h4>
+            <ul>
+              <li>Typography with distinctive font choices</li>
+              <li>Color & theme coherence with CSS variables</li>
+              <li>Motion and animation patterns</li>
+              <li>Spatial composition with asymmetry</li>
+              <li>Backgrounds (gradients, textures, patterns)</li>
+            </ul>
+            <div class="callout callout-tip">
+              <div class="callout-icon"><i class="fa-solid fa-lightbulb"></i></div>
+              <div class="callout-content">
+                <p>Avoids generic AI aesthetics like Inter fonts, purple gradients, and rounded corners everywhere.</p>
+              </div>
+            </div>
+            <div class="card-code-block">
+              <pre><code>skill: frontend-design</code></pre>
+            </div>
+          </div>
+        </section>
+
         <!-- Development Tools -->
         <section id="development-tools">
-          <h2><i class="fa-solid fa-code"></i> Development Tools (7)</h2>
-          <p>These skills teach Claude specific coding styles and architectural patterns. Use them when you want code that follows a particular philosophy—not just any working code, but code that looks like it was written by a specific person or framework.</p>
+          <h2><i class="fa-solid fa-code"></i> Development Tools (3)</h2>
+          <p>Skills for building Claude Code extensions. Use them when creating new agents, skills, or documenting solved problems.</p>
 
           <div class="skill-detail" id="create-agent-skills">
             <div class="skill-detail-header">
@@ -155,146 +223,6 @@ skill: create-agent-skills</code></pre>
             </ol>
             <div class="card-code-block">
               <pre><code>skill: skill-creator</code></pre>
-            </div>
-          </div>
-
-          <div class="skill-detail" id="dhh-ruby-style">
-            <div class="skill-detail-header">
-              <h3>dhh-ruby-style</h3>
-              <span class="skill-badge">Rails</span>
-            </div>
-            <p class="skill-detail-description">
-              You want Rails controllers that are five lines, not fifty. Models that handle authorization, broadcasting, and business logic without service objects everywhere. This skill teaches Claude to write code the way DHH writes it at 37signals—REST-pure, Hotwire-first, no architectural astronautics.
-            </p>
-            <h4>Key Patterns</h4>
-            <ul>
-              <li><strong>REST Purity</strong> - 7 REST actions only</li>
-              <li><strong>Fat Models</strong> - Business logic, authorization, broadcasting in models</li>
-              <li><strong>Thin Controllers</strong> - 1-5 line actions</li>
-              <li><strong>Current Attributes</strong> - Request context</li>
-              <li><strong>Hotwire/Turbo</strong> - Model-level broadcasting</li>
-            </ul>
-            <h4>Ruby Syntax Preferences</h4>
-            <ul>
-              <li>Symbol arrays <code>%i[...]</code></li>
-              <li>Modern hash syntax</li>
-              <li>Ternaries for simple conditionals</li>
-              <li>Bang methods for mutations</li>
-            </ul>
-            <div class="card-code-block">
-              <pre><code>skill: dhh-ruby-style</code></pre>
-            </div>
-          </div>
-
-          <div class="skill-detail" id="andrew-kane-gem-writer">
-            <div class="skill-detail-header">
-              <h3>andrew-kane-gem-writer</h3>
-              <span class="skill-badge">Ruby</span>
-            </div>
-            <p class="skill-detail-description">
-              Andrew Kane has written 100+ Ruby gems with 374 million downloads. Every gem follows the same patterns: minimal dependencies, class macro DSLs, Rails integration without Rails coupling. When you're building a gem and want it to feel production-ready from day one, this is how you do it.
-            </p>
-            <h4>Philosophy</h4>
-            <ul>
-              <li>Simplicity over cleverness</li>
-              <li>Zero or minimal dependencies</li>
-              <li>Explicit code over metaprogramming</li>
-              <li>Rails integration without Rails coupling</li>
-            </ul>
-            <h4>Key Patterns</h4>
-            <ul>
-              <li>Class macro DSL for configuration</li>
-              <li><code>ActiveSupport.on_load</code> for Rails integration</li>
-              <li><code>class << self</code> with <code>attr_accessor</code></li>
-              <li>Railtie pattern for hooks</li>
-              <li>Minitest (no RSpec)</li>
-            </ul>
-            <h4>Reference Files</h4>
-            <ul>
-              <li><code>references/module-organization.md</code></li>
-              <li><code>references/rails-integration.md</code></li>
-              <li><code>references/database-adapters.md</code></li>
-              <li><code>references/testing-patterns.md</code></li>
-            </ul>
-            <div class="card-code-block">
-              <pre><code>skill: andrew-kane-gem-writer</code></pre>
-            </div>
-          </div>
-
-          <div class="skill-detail" id="dspy-ruby">
-            <div class="skill-detail-header">
-              <h3>dspy-ruby</h3>
-              <span class="skill-badge">AI</span>
-            </div>
-            <p class="skill-detail-description">
-              You're adding AI features to your Rails app, but you don't want brittle prompt strings scattered everywhere. DSPy.rb gives you type-safe signatures, composable predictors, and tool-using agents. This skill shows you how to use it—from basic inference to ReAct agents that iterate until they get the answer right.
-            </p>
-            <h4>Predictor Types</h4>
-            <ul>
-              <li><strong>Predict</strong> - Basic inference</li>
-              <li><strong>ChainOfThought</strong> - Reasoning with explanations</li>
-              <li><strong>ReAct</strong> - Tool-using agents with iteration</li>
-              <li><strong>CodeAct</strong> - Dynamic code generation</li>
-            </ul>
-            <h4>Supported Providers</h4>
-            <ul>
-              <li>OpenAI (GPT-4, GPT-4o-mini)</li>
-              <li>Anthropic Claude</li>
-              <li>Google Gemini</li>
-              <li>Ollama (free, local)</li>
-              <li>OpenRouter</li>
-            </ul>
-            <h4>Requirements</h4>
-            <table class="docs-table">
-              <tr>
-                <td><code>OPENAI_API_KEY</code></td>
-                <td>For OpenAI provider</td>
-              </tr>
-              <tr>
-                <td><code>ANTHROPIC_API_KEY</code></td>
-                <td>For Anthropic provider</td>
-              </tr>
-              <tr>
-                <td><code>GOOGLE_API_KEY</code></td>
-                <td>For Gemini provider</td>
-              </tr>
-            </table>
-            <div class="card-code-block">
-              <pre><code>skill: dspy-ruby</code></pre>
-            </div>
-          </div>
-
-          <div class="skill-detail" id="frontend-design">
-            <div class="skill-detail-header">
-              <h3>frontend-design</h3>
-              <span class="skill-badge">Design</span>
-            </div>
-            <p class="skill-detail-description">
-              You've seen what AI usually generates: Inter font, purple gradients, rounded corners on everything. This skill teaches Claude to design interfaces that don't look like every other AI-generated site. It's about purposeful typography, unexpected color palettes, and interfaces with personality.
-            </p>
-            <h4>Design Thinking</h4>
-            <ul>
-              <li><strong>Purpose</strong> - What is the interface for?</li>
-              <li><strong>Tone</strong> - What feeling should it evoke?</li>
-              <li><strong>Constraints</strong> - Technical and brand limitations</li>
-              <li><strong>Differentiation</strong> - How to stand out</li>
-            </ul>
-            <h4>Focus Areas</h4>
-            <ul>
-              <li>Typography with distinctive font choices</li>
-              <li>Color & theme coherence with CSS variables</li>
-              <li>Motion and animation patterns</li>
-              <li>Spatial composition with asymmetry</li>
-              <li>Backgrounds (gradients, textures, patterns)</li>
-            </ul>
-            <div class="callout callout-tip">
-              <div class="callout-icon"><i class="fa-solid fa-lightbulb"></i></div>
-              <div class="callout-content">
-                <p>Avoids generic AI aesthetics like Inter fonts, purple gradients, and rounded corners everywhere.</p>
-              </div>
-            </div>
-            <div class="card-code-block">
-              <pre><code>skill: frontend-design</code></pre>
             </div>
           </div>
 
