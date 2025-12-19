@@ -5,11 +5,65 @@ All notable changes to the compound-engineering plugin will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.16.0] - 2025-12-18
+## [3.1.0] - 2025-12-19
 
 ### Added
 
-- **`david-go-reviewer` agent** - New review agent for Go code with idiomatic conventions based on Effective Go and Go Code Review Comments. Reviews for proper error handling, naming conventions (initialisms, package names, receivers), interface design (accept interfaces, return concrete types), goroutine safety and lifecycle management, and the core Go philosophy of simplicity over cleverness.
+- **`conventional-commits` skill** - Ensures all commits follow the conventional commits specification v1.0.0 with proper pre-commit handling and semantic versioning alignment. Includes:
+  - Full commit type reference (feat, fix, docs, style, refactor, perf, test, build, ci, chore)
+  - Breaking change workflow requiring user confirmation before MAJOR version bumps
+  - Pre-commit hook handling without workarounds or bypasses
+  - HEREDOC templates for multi-line commit messages
+  - Changelog integration patterns
+
+### Changed
+
+- **`/workflows:work` command** - Updated Phase 4 (Ship It) to reference `conventional-commits` skill. Removed AI/Claude/generated references from commit messages and PR descriptions. Added pre-commit handling requirements and breaking change confirmation workflow.
+
+## [3.0.0] - 2025-12-19
+
+### Breaking Changes
+
+This release refocuses the plugin on **Go, React, and TypeScript stacks**, removing Ruby/Rails/Python-specific components. If you rely on the removed components, stay on version 2.16.0.
+
+### Added
+
+- **`david-go-reviewer` agent** - Go code review with idiomatic patterns and DHH's philosophy of simplicity. Specialized for stacks using NATS, sqlc, connect-rpc, PostgreSQL, WASM, and Goja. Covers error handling, concurrency patterns, interface design, DDD architecture, and thorough coverage of the Go ecosystem.
+- **`david-react-reviewer` agent** - React code review with strict conventions. Focuses on hooks patterns (dependency arrays, custom hook design, rules of hooks), component design (single responsibility, props design, discriminated unions), state management (useState vs useReducer, derived state), performance optimization (proper memoization, re-render analysis), and effects hygiene (cleanup functions, AbortController).
+- **`david-typescript-reviewer` agent** - TypeScript code review with strict type safety focus. Enforces strict mode configuration, eliminates `any` usage in favor of `unknown` with type guards, validates type inference patterns, reviews discriminated unions for domain modeling, checks generic constraints, ensures null safety, and promotes advanced patterns like template literal types and const assertions.
+
+### Changed
+
+- **`ankane-readme-writer` agent** → **`concise-readme-writer` agent** - Converted from Ruby gem-specific to language-agnostic. Now works for Go, TypeScript, Python, Rust, or any language. Maintains the same philosophy of maximum clarity with minimum words.
+
+### Removed
+
+**Agents removed (Ruby/Rails/Python-specific):**
+- `dhh-rails-reviewer` - Rails-specific code review
+- `kieran-rails-reviewer` - Rails-specific code review
+- `kieran-python-reviewer` - Python-specific code review
+- `lint` - Ruby/ERB linting (StandardRB, ERBLint, Brakeman)
+- `julik-frontend-races-reviewer` - Stimulus/Hotwire-specific frontend review
+
+**Skills removed (Ruby/Rails-specific):**
+- `andrew-kane-gem-writer` - Ruby gem writing patterns
+- `dhh-rails-style` - Rails code style
+- `dhh-ruby-style` - Ruby code style
+- `dspy-ruby` - Ruby LLM framework
+
+### Migration Guide
+
+If you're using this plugin with Ruby/Rails projects, you have two options:
+
+1. **Stay on v2.16.0** - Pin your plugin version to continue using Ruby/Rails components
+2. **Use generic agents** - The remaining review agents (architecture-strategist, security-sentinel, performance-oracle, etc.) still work for any language
+
+## [2.16.0] - 2025-12-19
+
+### Added
+
+- **`david-react-reviewer` agent** - React code review with David's strict conventions.
+- **`david-typescript-reviewer` agent** - TypeScript code review with David's strict type safety focus.
 
 ## [2.15.1] - 2025-12-18
 

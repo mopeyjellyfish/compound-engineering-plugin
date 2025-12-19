@@ -152,25 +152,37 @@ This command takes a work document (plan, specification, or todo file) and execu
 
 ### Phase 4: Ship It
 
-1. **Create Commit**
+1. **Create Commit (Follow conventional-commits skill)**
+
+   Stage and commit following the `conventional-commits` skill guidelines:
 
    ```bash
-   git add .
+   git add <relevant-files>
    git status  # Review what's being committed
-   git diff --staged  # Check the changes
+   git diff --staged  # Verify the changes
+   ```
 
-   # Commit with conventional format
+   Write a conventional commit message (no AI/Claude/generated references):
+
+   ```bash
    git commit -m "$(cat <<'EOF'
-   feat(scope): description of what and why
+   <type>(scope): description of what changed
 
-   Brief explanation if needed.
-
-   🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-   Co-Authored-By: Claude <noreply@anthropic.com>
+   Optional body explaining why, not how.
    EOF
    )"
    ```
+
+   **Pre-commit handling (CRITICAL):**
+   - Read the pre-commit output completely
+   - If files were auto-modified (formatting), stage and commit again
+   - If pre-commit fails, fix the underlying issue - never skip or work around
+   - Never use `--no-verify` or other bypass flags
+
+   **Breaking changes:**
+   - Never assume a change is breaking
+   - Ask the user to confirm before using `!` or `BREAKING CHANGE:` footer
+   - Only user can determine if MAJOR version bump is required
 
 2. **Capture and Upload Screenshots for UI Changes** (REQUIRED for any UI work)
 
@@ -207,7 +219,7 @@ This command takes a work document (plan, specification, or todo file) and execu
    ```bash
    git push -u origin feature-branch-name
 
-   gh pr create --title "Feature: [Description]" --body "$(cat <<'EOF'
+   gh pr create --title "<type>(scope): description" --body "$(cat <<'EOF'
    ## Summary
    - What was built
    - Why it was needed
@@ -224,8 +236,6 @@ This command takes a work document (plan, specification, or todo file) and execu
 
    ## Figma Design
    [Link if applicable]
-
-   🤖 Generated with [Claude Code](https://claude.com/claude-code)
    EOF
    )"
    ```
@@ -277,12 +287,14 @@ Before creating PR, verify:
 
 - [ ] All clarifying questions asked and answered
 - [ ] All TodoWrite tasks marked completed
-- [ ] Tests pass (run `bin/rails test`)
-- [ ] Linting passes (use linting-agent)
+- [ ] Tests pass
+- [ ] Linting passes
 - [ ] Code follows existing patterns
 - [ ] Figma designs match implementation (if applicable)
 - [ ] Before/after screenshots captured and uploaded (for UI changes)
-- [ ] Commit messages follow conventional format
+- [ ] Commit messages follow `conventional-commits` skill (no AI/Claude references)
+- [ ] Pre-commit hooks pass without workarounds
+- [ ] Breaking changes confirmed with user before marking as BREAKING
 - [ ] PR description includes summary, testing notes, and screenshots
 
 ## When to Use Reviewer Agents
