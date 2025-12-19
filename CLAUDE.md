@@ -1,11 +1,11 @@
-# Every Marketplace - Claude Code Plugin Marketplace
+# Compound Plugins - Claude Code Plugin Marketplace
 
 This repository is a Claude Code plugin marketplace that distributes the `compound-engineering` plugin to developers building with AI-powered tools.
 
 ## Repository Structure
 
 ```
-every-marketplace/
+compound-plugins/
 ├── .claude-plugin/
 │   └── marketplace.json          # Marketplace catalog (lists available plugins)
 ├── docs/                         # Documentation site (GitHub Pages)
@@ -18,7 +18,7 @@ every-marketplace/
         ├── .claude-plugin/
         │   └── plugin.json        # Plugin metadata
         ├── agents/                # 24 specialized AI agents
-        ├── commands/              # 13 slash commands
+        ├── commands/              # 19 slash commands
         ├── skills/                # 11 skills
         ├── mcp-servers/           # 2 MCP servers (playwright, context7)
         ├── README.md              # Plugin documentation
@@ -204,7 +204,7 @@ docs/
 └── pages/
     ├── getting-started.html  # Installation and quick start
     ├── agents.html           # All 24 agents reference
-    ├── commands.html         # All 13 commands reference
+    ├── commands.html         # All 19 commands reference
     ├── skills.html           # All 11 skills reference
     ├── mcp-servers.html      # MCP servers reference
     └── changelog.html        # Version history
@@ -261,7 +261,7 @@ python -m http.server 8000
 1. Install the marketplace locally:
 
    ```bash
-   claude /plugin marketplace add /Users/yourusername/every-marketplace
+   claude /plugin marketplace add /Users/yourusername/compound-plugins
    ```
 
 2. Install the plugin:
@@ -272,8 +272,8 @@ python -m http.server 8000
 
 3. Test agents and commands:
    ```bash
-   claude /review
-   claude agent kieran-rails-reviewer "test message"
+   claude /workflows:review
+   claude agent david-go-reviewer "test message"
    ```
 
 ### Validate JSON

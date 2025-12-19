@@ -125,19 +125,43 @@ This command takes a work document (plan, specification, or todo file) and execu
 
 2. **Consider Reviewer Agents** (Optional)
 
-   Use for complex, risky, or large changes:
+   Use for complex, risky, or large changes. **Select reviewers based on file types:**
 
-   - **code-simplicity-reviewer**: Check for unnecessary complexity
-   - **kieran-rails-reviewer**: Verify Rails conventions (Rails projects)
-   - **performance-oracle**: Check for performance issues
-   - **security-sentinel**: Scan for security vulnerabilities
-   - **cora-test-reviewer**: Review test quality (CORA projects)
+   **Language-Specific Reviewers (based on files changed):**
+
+   | File Pattern | Reviewer | Focus Area |
+   |-------------|----------|------------|
+   | `*.go` | **david-go-reviewer** | Go idioms, error handling, concurrency, sqlc, NATS |
+   | `*.ts` | **david-typescript-reviewer** | Type safety, strict mode, generics, discriminated unions |
+   | `*.tsx`, `*.jsx` | **david-react-reviewer** | Hooks, effects, component design, performance |
+   | `*.tsx` (React+TS) | **Both** typescript + react reviewers | Full stack review |
+   | `*.sql`, `*/sql/*` | **data-migration-expert** + **sqlc skill** | Query patterns, migration safety |
+   | `*/sql/migrations/*`, `*/migrations/*` | **data-migration-expert** + **deployment-verification-agent** + **sqlc skill** | Migration rollback, deploy checklists |
+   | `*/sql/queries/*`, `*/queries/*` | **david-go-reviewer** + **performance-oracle** + **sqlc skill** | sqlc queries, N+1 detection |
+
+   **Cross-Cutting Reviewers (apply to any language):**
+
+   | Reviewer | When to Use | Focus Area |
+   |----------|------------|------------|
+   | **security-sentinel** | Auth changes, APIs, user input | Injection, XSS, data exposure |
+   | **performance-oracle** | Data processing, queries | N+1, complexity, caching |
+   | **code-simplicity-reviewer** | After implementation (final pass) | Unnecessary complexity |
+   | **architecture-strategist** | Structural changes | SOLID, boundaries, coupling |
+
+   **How to select reviewers:**
+   1. Check which file types are in your changes
+   2. Run matching language-specific reviewers
+   3. Add cross-cutting reviewers for risky areas
+   4. Run code-simplicity-reviewer LAST as final pass
 
    Run reviewers in parallel with Task tool:
 
    ```
-   Task(code-simplicity-reviewer): "Review changes for simplicity"
-   Task(kieran-rails-reviewer): "Check Rails conventions"
+   # Example: TypeScript + Go changes with security concerns
+   Task(david-typescript-reviewer): "Review TypeScript changes"
+   Task(david-go-reviewer): "Review Go changes"
+   Task(security-sentinel): "Scan for security issues"
+   Task(code-simplicity-reviewer): "Final simplicity check"  # Run last
    ```
 
    Present findings to user and address critical issues.
@@ -184,37 +208,7 @@ This command takes a work document (plan, specification, or todo file) and execu
    - Ask the user to confirm before using `!` or `BREAKING CHANGE:` footer
    - Only user can determine if MAJOR version bump is required
 
-2. **Capture and Upload Screenshots for UI Changes** (REQUIRED for any UI work)
-
-   For **any** design changes, new views, or UI modifications, you MUST capture and upload screenshots:
-
-   **Step 1: Start dev server** (if not running)
-   ```bash
-   bin/dev  # Run in background
-   ```
-
-   **Step 2: Capture screenshots with Playwright MCP tools**
-   - `browser_navigate` to go to affected pages
-   - `browser_resize` to set viewport (desktop or mobile as needed)
-   - `browser_snapshot` to verify page state
-   - `browser_take_screenshot` to capture images
-
-   **Step 3: Upload using imgup skill**
-   ```bash
-   skill: imgup
-   # Then upload each screenshot:
-   imgup -h pixhost screenshot.png  # pixhost works without API key
-   # Alternative hosts: catbox, imagebin, beeimg
-   ```
-
-   **What to capture:**
-   - **New screens**: Screenshot of the new UI
-   - **Modified screens**: Before AND after screenshots
-   - **Design implementation**: Screenshot showing Figma design match
-
-   **IMPORTANT**: Always include uploaded image URLs in PR description. This provides visual context for reviewers and documents the change.
-
-3. **Create Pull Request**
+2. **Create Pull Request**
 
    ```bash
    git push -u origin feature-branch-name
@@ -228,19 +222,11 @@ This command takes a work document (plan, specification, or todo file) and execu
    ## Testing
    - Tests added/modified
    - Manual testing performed
-
-   ## Before / After Screenshots
-   | Before | After |
-   |--------|-------|
-   | ![before](URL) | ![after](URL) |
-
-   ## Figma Design
-   [Link if applicable]
    EOF
    )"
    ```
 
-4. **Notify User**
+3. **Notify User**
    - Summarize what was completed
    - Link to PR
    - Note any follow-up work needed
@@ -291,11 +277,10 @@ Before creating PR, verify:
 - [ ] Linting passes
 - [ ] Code follows existing patterns
 - [ ] Figma designs match implementation (if applicable)
-- [ ] Before/after screenshots captured and uploaded (for UI changes)
 - [ ] Commit messages follow `conventional-commits` skill (no AI/Claude references)
 - [ ] Pre-commit hooks pass without workarounds
 - [ ] Breaking changes confirmed with user before marking as BREAKING
-- [ ] PR description includes summary, testing notes, and screenshots
+- [ ] PR description includes summary and testing notes
 
 ## When to Use Reviewer Agents
 

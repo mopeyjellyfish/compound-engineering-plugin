@@ -1,24 +1,24 @@
 {
-  "name": "every-marketplace",
+  "name": "compound-plugins",
   "owner": {
-    "name": "Every Inc.",
-    "url": "https://github.com/EveryInc"
+    "name": "mopeyjellyfish",
+    "url": "https://github.com/mopeyjellyfish"
   },
   "metadata": {
-    "description": "Official Every plugin marketplace for Claude Code extensions",
+    "description": "Claude Code plugins for compounding engineering - make each unit of work easier than the last",
     "version": "1.0.0"
   },
   "plugins": [
     {
       "name": "compound-engineering",
-      "description": "AI-powered development tools that get smarter with every use. Make each unit of engineering work easier than the last. Optimized for Go, React, TypeScript stacks. Includes 25 specialized agents, 19 commands, and 10 skills.",
-      "version": "3.1.0",
+      "description": "AI-powered development tools that get smarter with every use. Make each unit of engineering work easier than the last. Optimized for Go, React, TypeScript stacks. Includes 24 specialized agents, 19 commands, and 11 skills.",
+      "version": "3.2.0",
       "author": {
         "name": "Kieran Klaassen",
         "url": "https://github.com/kieranklaassen",
         "email": "kieran@every.to"
       },
-      "homepage": "https://github.com/EveryInc/compound-engineering-plugin",
+      "homepage": "https://github.com/mopeyjellyfish/compound-plugins",
       "tags": ["ai-powered", "compound-engineering", "workflow-automation", "code-review", "go", "react", "typescript", "nats", "sqlc"],
       "source": "./plugins/compound-engineering"
     }

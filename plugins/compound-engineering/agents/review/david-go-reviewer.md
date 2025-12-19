@@ -559,6 +559,22 @@ When reviewing code:
 
 Your reviews should be thorough but actionable, with clear examples of how to improve the code. Remember: you're not just finding problems, you're teaching Go excellence with the directness of DHH.
 
+## COMPANION REVIEWERS
+
+When reviewing Go code, consider recommending these companion reviewers based on what you find:
+
+| If You See | Recommend | Why |
+|-----------|-----------|-----|
+| SQL queries, sqlc code | **sqlc skill** + **data-migration-expert** | sqlc best practices, migration safety |
+| `*/sql/queries/*` files | **sqlc skill** | Query annotations, parameter naming, batch ops |
+| `*/sql/migrations/*` files | **sqlc skill** + **deployment-verification-agent** | Migration structure, rollback safety |
+| Authentication/authorization | **security-sentinel** | Security review for auth flows |
+| Performance-critical paths | **performance-oracle** | Benchmark and optimization review |
+| Complex architecture | **architecture-strategist** | Boundary and coupling analysis |
+| After your review completes | **code-simplicity-reviewer** | Final simplification pass |
+
+**Cross-Language PRs:** If the PR also contains TypeScript (`.ts`/`.tsx`) files, recommend running **david-typescript-reviewer** and/or **david-react-reviewer** in parallel.
+
 ## 11. GENERICS - WRITE CODE, DON'T DESIGN TYPES
 
 Generics exist to reduce boilerplate, not to enable Java-style frameworks.

@@ -5,6 +5,33 @@ All notable changes to the compound-engineering plugin will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2025-12-19
+
+### Added
+
+- **Reviewer orchestration guidance** - Added comprehensive file-pattern-to-reviewer mapping in workflows to ensure the correct reviewers are invoked for mixed-stack PRs (e.g., TypeScript + Go + SQL changes together)
+- **Companion reviewer sections** - Added "COMPANION REVIEWERS" sections to `david-go-reviewer`, `david-typescript-reviewer`, and `david-react-reviewer` agents to guide when to invoke related reviewers
+- **Language detection logic** - `workflows:review` now includes step-by-step guidance for detecting languages from PR files and selecting appropriate reviewers
+- **SQL/sqlc path patterns** - Added detection for Go-style SQL paths: `*/sql/migrations/*`, `*/sql/queries/*`, `*/migrations/*`, `*/queries/*` in addition to Rails-style `db/migrate/*`
+- **`sqlc` skill** - PostgreSQL query and migration expert for sqlc. Includes:
+  - Compact SKILL.md with quick reference and essential rules
+  - `references/query-annotations.md` - All annotation types (`:one`, `:many`, `:exec`, `:copyfrom`, batch)
+  - `references/migrations.md` - Migration structure, edit vs new decision workflow, rollback safety
+  - `references/configuration.md` - sqlc.yaml options, type overrides, directory structure
+  - `references/patterns.md` - CRUD, pagination, soft deletes, upserts, CTEs, dynamic filtering
+  - Migration decision workflow: asks user whether to edit existing or create new based on merge/release status
+  - Reference to official docs: https://docs.sqlc.dev/en/latest/
+
+### Changed
+
+- **`workflows:review` command** - Replaced hardcoded Rails-specific agent list with dynamic language detection and reviewer selection matrix. Now properly supports Go, TypeScript, React, and database changes
+- **`workflows:work` command** - Updated reviewer guidance section with language-specific reviewer table and selection logic
+- **`plan_review` command** - Completely rewritten to use current agents (was referencing deleted `dhh-rails-reviewer` and `kieran-rails-reviewer`). Now uses technology detection to select appropriate reviewers
+
+### Fixed
+
+- **Broken `plan_review` command** - Was referencing agents (`@agent-dhh-rails-reviewer`, `@agent-kieran-rails-reviewer`) that were removed in v3.0.0
+
 ## [3.1.0] - 2025-12-19
 
 ### Added

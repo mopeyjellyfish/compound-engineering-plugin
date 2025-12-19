@@ -1,14 +1,14 @@
 {
   "name": "compound-engineering",
-  "version": "3.1.0",
-  "description": "AI-powered development tools. 25 agents, 19 commands, 10 skills, 2 MCP servers for code review, research, design, and workflow automation. Optimized for Go, React, TypeScript stacks.",
+  "version": "3.2.0",
+  "description": "AI-powered development tools. 24 agents, 19 commands, 11 skills, 2 MCP servers for code review, research, design, and workflow automation. Optimized for Go, React, TypeScript stacks.",
   "author": {
     "name": "Kieran Klaassen",
     "email": "kieran@every.to",
     "url": "https://github.com/kieranklaassen"
   },
   "homepage": "https://every.to/source-code/my-ai-had-already-fixed-the-code-before-i-saw-it",
-  "repository": "https://github.com/EveryInc/every-marketplace",
+  "repository": "https://github.com/mopeyjellyfish/compound-plugins",
   "license": "MIT",
   "keywords": [
     "ai-powered",

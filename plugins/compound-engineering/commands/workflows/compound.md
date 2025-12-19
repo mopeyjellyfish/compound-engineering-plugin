@@ -66,8 +66,8 @@ This command launches multiple specialized subagents IN PARALLEL to maximize eff
    - **performance_issue** → `performance-oracle`
    - **security_issue** → `security-sentinel`
    - **database_issue** → `data-integrity-guardian`
-   - **test_failure** → `cora-test-reviewer`
-   - Any code-heavy issue → `kieran-rails-reviewer` + `code-simplicity-reviewer`
+   - **test_failure** → `pattern-recognition-specialist`
+   - Any code-heavy issue → `code-simplicity-reviewer` + language-specific reviewer
 
 ## What It Captures
 
@@ -125,7 +125,7 @@ Primary Subagent Results:
 
 Specialized Agent Reviews (Auto-Triggered):
   ✓ performance-oracle: Validated query optimization approach
-  ✓ kieran-rails-reviewer: Code examples meet Rails standards
+  ✓ language-specific-reviewer: Code examples meet standards
   ✓ code-simplicity-reviewer: Solution is appropriately minimal
   ✓ every-style-editor: Documentation style verified
 
@@ -177,14 +177,14 @@ Build → Test → Find Issue → Research → Improve → Document → Validate
 Based on problem type, these agents can enhance documentation:
 
 ### Code Quality & Review
-- **kieran-rails-reviewer**: Reviews code examples for Rails best practices
+- **language-specific-reviewer**: Reviews code examples (david-go-reviewer, david-typescript-reviewer, david-react-reviewer based on code)
 - **code-simplicity-reviewer**: Ensures solution code is minimal and clear
 - **pattern-recognition-specialist**: Identifies anti-patterns or repeating issues
 
 ### Specific Domain Experts
 - **performance-oracle**: Analyzes performance_issue category solutions
 - **security-sentinel**: Reviews security_issue solutions for vulnerabilities
-- **cora-test-reviewer**: Creates test cases for prevention strategies
+- **pattern-recognition-specialist**: Identifies patterns and suggests test cases
 - **data-integrity-guardian**: Reviews database_issue migrations and queries
 
 ### Enhancement & Documentation

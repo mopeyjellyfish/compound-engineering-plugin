@@ -8,16 +8,16 @@ AI-powered development tools that get smarter with every use. Make each unit of 
 
 | Component | Count |
 |-----------|-------|
-| Agents | 25 |
+| Agents | 24 |
 | Commands | 19 |
-| Skills | 10 |
+| Skills | 11 |
 | MCP Servers | 2 |
 
 ## Agents
 
 Agents are organized into categories for easier discovery.
 
-### Review (13)
+### Review (12)
 
 | Agent | Description |
 |-------|-------------|
@@ -30,7 +30,6 @@ Agents are organized into categories for easier discovery.
 | `david-react-reviewer` | React code review with strict hooks, component design, and performance focus |
 | `david-typescript-reviewer` | TypeScript code review with strict type safety and advanced patterns |
 | `deployment-verification-agent` | Create Go/No-Go deployment checklists for risky data changes |
-| `kieran-typescript-reviewer` | TypeScript code review with strict conventions |
 | `pattern-recognition-specialist` | Analyze code for patterns and anti-patterns |
 | `performance-oracle` | Performance analysis and optimization |
 | `security-sentinel` | Security audits and vulnerability assessments |
@@ -115,6 +114,7 @@ Core workflow commands use `workflows:` prefix to avoid collisions with built-in
 | `conventional-commits` | Ensure commits follow conventional commits spec with pre-commit handling |
 | `create-agent-skills` | Expert guidance for creating Claude Code skills |
 | `skill-creator` | Guide for creating effective Claude Code skills |
+| `sqlc` | PostgreSQL query and migration expert for sqlc-based projects |
 
 ### Content & Workflow
 
