@@ -205,7 +205,7 @@ This command takes a work document (plan, specification, or todo file) and execu
 
    **Breaking changes:**
    - Never assume a change is breaking
-   - Ask the user to confirm before using `!` or `BREAKING CHANGE:` footer
+   - Ask the user to confirm before using breaking change markers (exclamation mark or BREAKING CHANGE footer)
    - Only user can determine if MAJOR version bump is required
 
 2. **Create Pull Request**
